@@ -16,10 +16,11 @@ namespace BIP39
 		
 		public:
 			Entropy();
-			Entropy(const BIP39::Data &vch);
+			~Entropy();
+			Entropy(const BIP39::Data &data);
 			
 			std::string GetStr() const;
-			void Set(const BIP39::Data &other_vch);
+			bool Set(const BIP39::Data &data);
 			
 			unsigned int size() const;
 			const unsigned char *begin() const;

@@ -9,7 +9,12 @@
 
 BIP39::Entropy::Entropy()
 {
-	
+	memset(&this->_vch[0], 0, 32);
+}
+
+BIP39::Entropy::~Entropy()
+{
+	memset(&this->_vch[0], 0, 32);
 }
 
 BIP39::Entropy::Entropy(const BIP39::Data &data)
@@ -22,9 +27,16 @@ std::string BIP39::Entropy::GetStr() const
 	return "0x" + HexStr(*this);
 }
 
-void BIP39::Entropy::Set(const BIP39::Data &data)
+bool BIP39::Entropy::Set(const BIP39::Data &data)
 {
+	if(data.size() != 32)
+	{
+		return false;
+	}
+	
 	memcpy(this->_vch, const_cast<unsigned char*>(&data.begin()[0]), 32);
+	
+	return true;
 }
 
 unsigned int BIP39::Entropy::size() const
@@ -92,3 +104,4 @@ BIP39::Data BIP39::Entropy::Raw() const
 
 	return data;
 }
+

@@ -15,6 +15,7 @@ namespace BIP39
 		
 		public:
 			CheckSum();
+			~CheckSum();
 			CheckSum(const uint8_t sum);
 			
 			void Set(const uint8_t sum);

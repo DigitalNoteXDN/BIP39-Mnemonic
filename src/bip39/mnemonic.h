@@ -13,25 +13,37 @@ namespace BIP39
 	class Mnemonic
 	{
 		private:
-			BIP39::Words       _lang_words;
-			BIP39::Words       _words;
-			BIP39::CheckSum    _checksum;
-			BIP39::Entropy     _entropy;
+			BIP39::LanguageCode _lang_code;
+			BIP39::Words        _lang_words;
+			BIP39::Entropy      _entropy;
+			BIP39::CheckSum     _checksum;
+			BIP39::Words        _mnemonic;
 			
 			bool _isReady() const;
 			
+			void _Generate(const BIP39::Entropy& entropy, const BIP39::CheckSum& checksum, BIP39::WordIndexs* word_indexs) const;
+			void _Generate(const BIP39::WordIndexs& word_indexs, BIP39::Words* mnemonic) const;
+			bool _Generate(const BIP39::Words& mnemonic, BIP39::WordIndexs* word_indexs) const;
+			void _Generate(const BIP39::WordIndexs& word_indexs, BIP39::Entropy* entropy, BIP39::CheckSum* checksum) const;
+			
 		public:
 			Mnemonic();
+			~Mnemonic();
+			
+			BIP39::Entropy GetEntropy() const;
+			BIP39::CheckSum GetCheckSum() const;
+			BIP39::Words GetMnemonic() const;
+			std::string GetStr() const;
 			
 			bool Set(const std::string& mnemonic_str);
-			bool Set(const std::vector<BIP39::Word>& word);
+			bool Set(const BIP39::Words& mnemonic);
 			bool Set(const BIP39::Entropy& entropy, const BIP39::CheckSum& checksum);
-			
-			std::string GetStr() const;
 			
 			bool LoadLanguage(const BIP39::LanguageCode& lang_code = "EN");
 			BIP39::Words GetLanguageWords() const;
-			bool Find(const BIP39::Word& word, int* position) const;
+			bool Find(const BIP39::Word& word, int* index) const;
+			
+			void Debug();
 	};
 }
 

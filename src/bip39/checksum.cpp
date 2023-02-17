@@ -5,7 +5,12 @@
 
 BIP39::CheckSum::CheckSum()
 {
-	
+	this->_sum = 0x0;
+}
+
+BIP39::CheckSum::~CheckSum()
+{
+	this->_sum = 0x0;
 }
 
 BIP39::CheckSum::CheckSum(const uint8_t sum)
