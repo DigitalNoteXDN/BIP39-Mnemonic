@@ -6,33 +6,10 @@
 */
 
 #include <iostream>
-#include <algorithm>
 
-#include "bip39.h"
 #include "bip39/entropy.h"
 #include "bip39/checksum.h"
-
-void test_load_languages()
-{
-	BIP39::Words words;
-	BIP39::Words::iterator it;
-	
-	std::cout << "--- LOAD LANGUAGES ---" << std::endl;
-	
-	if(BIP39::LoadWords(words))
-	{
-		std::cout << "Found " << words.size() << " total words." << std::endl;
-		
-		it = std::find(words.begin(), words.end(), "acid");
-		
-		if(it != words.end())
-		{
-			int pos = std::distance(words.begin(), it);
-			
-			std::cout << "Found '" << *it << "' on position " << pos << std::endl; 
-		}
-	}
-}
+#include "bip39/mnemonic.h"
 
 void test_new_entropy()
 {
@@ -56,26 +33,67 @@ void test_new_checksum()
 	
 	std::cout << "--- NEW CHECKSUM ---" << std::endl;
 	
-	if(entropy.genRandom())
+	if(!entropy.genRandom())
 	{
-		BIP39::CheckSum checksum = entropy.genCheckSum();
+		std::cout << "Failed to generate new random entropy." << std::endl;
+		return;
+	}
+	
+	BIP39::CheckSum checksum = entropy.genCheckSum();
+	
+	std::cout << "Entropy  = " << entropy.GetStr() << std::endl;
+	std::cout << "Checksum = " << checksum.GetStr() << std::endl;
+	
+	std::cout << "checksum.isValid() = " << std::boolalpha << checksum.isValid(entropy) << std::endl;
+	
+	checksum.Set(0x0);
+	
+	std::cout << "checksum.isValid() = " << std::boolalpha << checksum.isValid(entropy) << std::endl;
+}
+
+void test_new_mnemonic()
+{
+	int pos;
+	BIP39::Mnemonic mnemonic;
+	BIP39::Entropy entropy;
+	BIP39::CheckSum checksum;
+	
+	std::cout << "--- NEW MNEMONIC ---" << std::endl;
+	
+	if(!mnemonic.LoadLanguage())
+	{
+		std::cout << "Failed to load language." << std::endl;
+		return;
+	}
+	
+	std::cout << "Found " << mnemonic.GetLanguageWords().size() << " total words." << std::endl;
+	
+	if(mnemonic.Find("acid", &pos))
+	{
+		std::cout << "Found 'acid' on position " << pos << std::endl;
+	}
+	
+	if(!entropy.genRandom())
+	{
+		std::cout << "Failed to generate new random entropy." << std::endl;
+		return;
+	}
+	
+	checksum = entropy.genCheckSum();
 		
+	if(mnemonic.Set(entropy, checksum))
+	{
 		std::cout << "Entropy  = " << entropy.GetStr() << std::endl;
 		std::cout << "Checksum = " << checksum.GetStr() << std::endl;
-		
-		std::cout << "checksum.isValid() = " << std::boolalpha << checksum.isValid(entropy) << std::endl;
-		
-		checksum.Set(0x0);
-		
-		std::cout << "checksum.isValid() = " << std::boolalpha << checksum.isValid(entropy) << std::endl;
+		std::cout << "mnemonic = " << mnemonic.GetStr() << std::endl;
 	}
 }
 
 int main()
 {
-	test_load_languages();
 	test_new_entropy();
 	test_new_checksum();
+	test_new_mnemonic();
 	
 	return 0;
 }

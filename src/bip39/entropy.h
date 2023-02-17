@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "../bip39.h"
 
 namespace BIP39
 {
@@ -11,14 +12,14 @@ namespace BIP39
 	class Entropy
 	{
 		private:
-			unsigned char vch[32]; // 256 bits
+			unsigned char _vch[32]; // 256 bits
 		
 		public:
 			Entropy();
-			Entropy(const std::vector<unsigned char> &vch);
+			Entropy(const BIP39::Data &vch);
 			
-			std::string GetStr();
-			void Set(const std::vector<unsigned char> &other_vch);
+			std::string GetStr() const;
+			void Set(const BIP39::Data &other_vch);
 			
 			unsigned int size() const;
 			const unsigned char *begin() const;
@@ -26,7 +27,8 @@ namespace BIP39
 			const unsigned char &operator[](unsigned int pos) const;
 			
 			bool genRandom();
-			BIP39::CheckSum genCheckSum();
+			BIP39::CheckSum genCheckSum() const;
+			BIP39::Data Raw() const;
 	};
 }
 

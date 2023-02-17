@@ -11,17 +11,17 @@ namespace BIP39
 	class CheckSum
 	{
 		private:
-			uint8_t sum; // 8 bits
+			uint8_t _sum; // 8 bits
 		
 		public:
 			CheckSum();
 			CheckSum(const uint8_t sum);
 			
 			void Set(const uint8_t sum);
-			uint8_t Get();
-			std::string GetStr();
+			uint8_t Get() const;
+			std::string GetStr() const;
 			
-			bool isValid(BIP39::Entropy& entropy);
+			bool isValid(const BIP39::Entropy& entropy) const;
 	};
 }
 
