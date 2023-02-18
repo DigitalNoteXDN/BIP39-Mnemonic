@@ -3,9 +3,9 @@
 #include "../util.h"
 #include "entropy.h"
 
-BIP39::CheckSum::CheckSum()
+BIP39::CheckSum::CheckSum() : _sum(0)
 {
-	this->_sum = 0x0;
+	
 }
 
 BIP39::CheckSum::~CheckSum()
@@ -35,6 +35,14 @@ std::string BIP39::CheckSum::GetStr() const
 
 bool BIP39::CheckSum::isValid(const BIP39::Entropy& entropy) const
 {
-	return this->_sum == entropy.genCheckSum().Get();
+	BIP39::CheckSum checksum;
+	
+	// Generate checksum
+	if(!entropy.genCheckSum(&checksum))
+	{
+		return false;
+	}
+	
+	return this->_sum == checksum.Get();
 }
 

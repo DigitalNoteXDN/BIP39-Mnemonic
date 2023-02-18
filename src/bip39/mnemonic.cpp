@@ -82,7 +82,6 @@ void BIP39::Mnemonic::_Generate(const BIP39::WordIndexs& word_indexs, BIP39::Wor
 	// Clear mnemonic
 	mnemonic->clear();
 	
-	
 	for(BIP39::WordIndex index : word_indexs)
 	{
 		mnemonic->push_back(this->_lang_words[index]);
@@ -99,7 +98,6 @@ void BIP39::Mnemonic::_Generate(const BIP39::WordIndexs& word_indexs, BIP39::Wor
 */
 bool BIP39::Mnemonic::_Generate(const BIP39::Words& mnemonic, BIP39::WordIndexs* word_indexs) const
 {
-	int index;
 	BIP39::Words::const_iterator found, begin, end;
 		
 	begin = this->_lang_words.begin();
@@ -228,7 +226,7 @@ std::string BIP39::Mnemonic::GetStr() const
 */
 bool BIP39::Mnemonic::Set(const std::string& mnemonic_str)
 {
-	std::string word;
+	BIP39::Word word;
 	BIP39::Words mnemonic;
 	std::stringstream ss;
 	

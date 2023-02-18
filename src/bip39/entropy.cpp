@@ -69,31 +69,40 @@ bool BIP39::Entropy::genRandom()
 	return true;
 }
 
-BIP39::CheckSum BIP39::Entropy::genCheckSum() const
+bool BIP39::Entropy::genCheckSum(BIP39::CheckSum* checksum) const
 {
+	unsigned char hash[EVP_MAX_MD_SIZE];
+	unsigned int size = 0;
+	
+	// Clear checksum
+	checksum->Set(0x0);
+	
+	// Create context and Initialize sha256 in context
 	EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-	BIP39::CheckSum checksum;
-
-	if(ctx != NULL)
+	if(ctx == NULL || EVP_DigestInit_ex(ctx, EVP_sha256(), NULL) == 0)
 	{
-		if(EVP_DigestInit_ex(ctx, EVP_sha256(), NULL))
-		{
-			if(EVP_DigestUpdate(ctx, this->begin(), this->size()))
-			{
-				unsigned char hash[EVP_MAX_MD_SIZE];
-				unsigned int lengthOfHash = 0;
-
-				if(EVP_DigestFinal_ex(ctx, hash, &lengthOfHash))
-				{
-					checksum.Set(static_cast<uint8_t>(hash[0]));
-				}
-			}
-			
-			EVP_MD_CTX_free(ctx);
-		}
+		return false;
 	}
 	
-	return checksum;
+	// Initialize EVP space with data and make the hash
+	if(
+		EVP_DigestUpdate(ctx, this->begin(), this->size()) == 0 ||
+		EVP_DigestFinal_ex(ctx, hash, &size) == 0
+	)
+	{
+		// Free EVP
+		EVP_MD_CTX_free(ctx);
+		
+		return false;
+	}
+	
+	// Set checksum
+	checksum->Set(static_cast<uint8_t>(hash[0]));
+	
+	// Free EVP
+	EVP_MD_CTX_free(ctx);
+	
+	return true;
 }
 
 BIP39::Data BIP39::Entropy::Raw() const

@@ -3,6 +3,7 @@
 		https://en.bitcoin.it/wiki/BIP_0039
 		https://learnmeabitcoin.com/technical/mnemonic
 		https://github.com/bitcoin/bips/tree/master/bip-0039
+		https://pypi.org/project/bip-utils/2.3.0/#files
 */
 
 #include <iostream>
@@ -43,7 +44,11 @@ void test_new_checksum()
 	}
 	
 	// Generate checksum
-	checksum = entropy.genCheckSum();
+	if(!entropy.genCheckSum(&checksum))
+	{
+		std::cout << "Failed to generate checksum." << std::endl;
+		return;
+	}
 	
 	// Test newly generated entropy and checksum
 	std::cout << "Entropy  = " << entropy.GetStr() << std::endl;
@@ -87,7 +92,11 @@ void test_new_mnemonic()
 	}
 	
 	// Generate checksum
-	checksum = entropy.genCheckSum();
+	if(!entropy.genCheckSum(&checksum))
+	{
+		std::cout << "Failed to generate checksum." << std::endl;
+		return;
+	}
 	
 	// Generate mnemonic
 	if(mnemonic.Set(entropy, checksum))
