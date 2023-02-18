@@ -19,7 +19,7 @@ namespace BIP39
 			BIP39::CheckSum     _checksum;
 			BIP39::Words        _mnemonic;
 			
-			bool _isReady() const;
+			bool _isLoaded() const;
 			
 			void _Generate(const BIP39::Entropy& entropy, const BIP39::CheckSum& checksum, BIP39::WordIndexs* word_indexs) const;
 			void _Generate(const BIP39::WordIndexs& word_indexs, BIP39::Words* mnemonic) const;

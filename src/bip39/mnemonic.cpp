@@ -22,7 +22,7 @@ std::map<BIP39::LanguageCode, std::string> lang_code_filepath = {
 /*
 	Checks if language database is loaded
 */
-bool BIP39::Mnemonic::_isReady() const
+bool BIP39::Mnemonic::_isLoaded() const
 {
 	return this->_lang_words.size() == 2048;
 }
@@ -259,7 +259,7 @@ bool BIP39::Mnemonic::Set(const BIP39::Words& mnemonic)
 	BIP39::CheckSum checksum;
 	
 	// Check database is loaded
-	if(!this->_isReady())
+	if(!this->_isLoaded())
 	{
 		return false;
 	}
@@ -293,7 +293,7 @@ bool BIP39::Mnemonic::Set(const BIP39::Entropy& entropy, const BIP39::CheckSum& 
 	BIP39::WordIndexs word_indexs;
 	
 	// Check database is loaded and if checksum and entropy match
-	if(!this->_isReady() || !checksum.isValid(entropy))
+	if(!this->_isLoaded() || !checksum.isValid(entropy))
 	{
 		return false;
 	}
@@ -331,7 +331,7 @@ bool BIP39::Mnemonic::LoadLanguage(const BIP39::LanguageCode& lang_code)
 	this->_lang_words.clear();
 	
 	// Iterate through the words inside the input file
-	for (std::string word; std::getline(ifs, word); ) 
+	for (BIP39::Word word; std::getline(ifs, word); ) 
 	{		
 		this->_lang_words.push_back(word);
 	}
@@ -360,7 +360,7 @@ bool BIP39::Mnemonic::Find(const BIP39::Word& word, int* index) const
 {
 	BIP39::Words::const_iterator found, begin, end;
 	
-	if(!this->_isReady())
+	if(!this->_isLoaded())
 	{
 		*index = -1;
 		return false;
@@ -388,7 +388,7 @@ void BIP39::Mnemonic::Debug()
 	std::cout << "Language Code = " << this->_lang_code << std::endl;
 	std::cout << "Language size = " << this->_lang_words.size() << std::endl;
 	
-	std::cout << "isReady  = " << std::boolalpha << this->_isReady() << std::endl;
+	std::cout << "isReady  = " << std::boolalpha << this-_isLoaded() << std::endl;
 	
 	std::cout << "Entropy  = " << this->_entropy.GetStr() << std::endl;
 	std::cout << "Checksum = " << this->_checksum.GetStr() << std::endl;
