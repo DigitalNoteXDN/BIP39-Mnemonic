@@ -9,7 +9,9 @@
 #include "../bip39.h"
 
 namespace BIP39
-{	
+{
+	class Seed;
+	
 	class Mnemonic
 	{
 		private:
@@ -33,6 +35,7 @@ namespace BIP39
 			BIP39::Entropy GetEntropy() const;
 			BIP39::CheckSum GetCheckSum() const;
 			BIP39::Words GetMnemonic() const;
+			BIP39::Seed GetSeed() const;
 			std::string GetStr() const;
 			
 			bool Set(const std::string& mnemonic_str);

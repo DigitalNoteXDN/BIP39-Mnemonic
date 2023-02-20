@@ -5,6 +5,8 @@
 #include <iostream>
 #include <sstream>
 
+#include "seed.h"
+
 #include "mnemonic.h"
 
 std::map<BIP39::LanguageCode, std::string> lang_code_filepath = {
@@ -200,6 +202,15 @@ BIP39::Words BIP39::Mnemonic::GetMnemonic() const
 	return this->_mnemonic;
 }
 
+BIP39::Seed BIP39::Mnemonic::GetSeed() const
+{
+	BIP39::Seed seed;
+	
+	seed.Set(this->GetStr());
+	
+	return seed;
+}
+
 std::string BIP39::Mnemonic::GetStr() const
 {
 	std::string v;
@@ -388,10 +399,11 @@ void BIP39::Mnemonic::Debug()
 	std::cout << "Language Code = " << this->_lang_code << std::endl;
 	std::cout << "Language size = " << this->_lang_words.size() << std::endl;
 	
-	std::cout << "isReady  = " << std::boolalpha << this-_isLoaded() << std::endl;
+	std::cout << "isLoaded = " << std::boolalpha << this->_isLoaded() << std::endl;
 	
 	std::cout << "Entropy  = " << this->_entropy.GetStr() << std::endl;
 	std::cout << "Checksum = " << this->_checksum.GetStr() << std::endl;
 	std::cout << "mnemonic = " << this->GetStr() << std::endl;
+	std::cout << "seed     = " << this->GetSeed().GetStr() << std::endl;
 }
 

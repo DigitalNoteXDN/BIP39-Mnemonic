@@ -11,6 +11,9 @@
 #include "bip39/entropy.h"
 #include "bip39/checksum.h"
 #include "bip39/mnemonic.h"
+#include "bip39/seed.h"
+
+#include "util.h"
 
 void test_new_entropy()
 {
@@ -98,14 +101,22 @@ void test_new_mnemonic()
 		return;
 	}
 	
-	// Generate mnemonic
-	if(mnemonic.Set(entropy, checksum))
+	// Generate mnemonic with entropy and checksum
+	if(!mnemonic.Set(entropy, checksum))
 	{
-		mnemonic2.Set(mnemonic.GetStr());
-		
-		mnemonic.Debug();
-		mnemonic2.Debug();
+		std::cout << "Failed to generate mnemonic with entropy and checksum." << std::endl;
+		return;
 	}
+	
+	// Generate mnemonic with mnemonic string
+	if(!mnemonic2.Set(mnemonic.GetStr()))
+	{
+		std::cout << "Failed to generate mnemonic with mnemonic string." << std::endl;
+		return;
+	}
+	
+	mnemonic.Debug();
+	mnemonic2.Debug();
 }
 
 int main()

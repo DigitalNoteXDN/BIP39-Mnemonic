@@ -1,6 +1,7 @@
 #include <string>
 
 #include "bip39/entropy.h"
+#include "bip39/seed.h"
 
 template<typename T>
 std::string HexStr(const T itbegin, const T itend, bool fSpaces)
@@ -31,4 +32,4 @@ template std::string HexStr<unsigned char*>(unsigned char*, unsigned char*, bool
 template std::string HexStr<unsigned char const*>(unsigned char const*, unsigned char const*, bool);
 
 template std::string HexStr<BIP39::Entropy>(BIP39::Entropy const&, bool);
-
+template std::string HexStr<BIP39::Seed>(BIP39::Seed const&, bool);

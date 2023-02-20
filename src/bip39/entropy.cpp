@@ -51,7 +51,7 @@ const unsigned char* BIP39::Entropy::begin() const
 
 const unsigned char* BIP39::Entropy::end() const
 {
-	return this->_vch + this->size();
+	return this->_vch + 32;
 }
 
 const unsigned char& BIP39::Entropy::operator[](unsigned int pos) const
@@ -61,7 +61,7 @@ const unsigned char& BIP39::Entropy::operator[](unsigned int pos) const
 
 bool BIP39::Entropy::genRandom()
 {
-	if(RAND_bytes(this->_vch, this->size()) == 0)
+	if(RAND_bytes(this->_vch, 32) == 0)
 	{
 		return false;
 	}
@@ -86,7 +86,7 @@ bool BIP39::Entropy::genCheckSum(BIP39::CheckSum* checksum) const
 	
 	// Initialize EVP space with data and make the hash
 	if(
-		EVP_DigestUpdate(ctx, this->begin(), this->size()) == 0 ||
+		EVP_DigestUpdate(ctx, this->begin(), 32) == 0 ||
 		EVP_DigestFinal_ex(ctx, hash, &size) == 0
 	)
 	{
@@ -109,7 +109,7 @@ BIP39::Data BIP39::Entropy::Raw() const
 {
 	BIP39::Data data;
 
-	data.insert(data.end(), this->_vch, this->_vch + this->size());
+	data.insert(data.end(), this->_vch, this->_vch + 32);
 
 	return data;
 }
