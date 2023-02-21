@@ -12,8 +12,6 @@ namespace BIP39
 	typedef unsigned int                  WordIndex;
 	typedef std::vector<BIP39::WordIndex> WordIndexs;
 	typedef std::string                   LanguageCode;
-	
-	//typedef unsigned char            Seed[64];    // 512 bits
 }
 
 #endif // BIP39_H

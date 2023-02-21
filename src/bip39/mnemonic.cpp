@@ -4,10 +4,12 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
+#include <bip39.h>
 #include <bip39/seed.h>
 #include <bip39/mnemonic.h>
 
-std::map<BIP39::LanguageCode, std::string> lang_code_filepath = {
+/*
+std::map<const BIP39::LanguageCode, const std::string> lang_code_filepath = {
 	{ "zh-CN",  "../data/chinese_simplified.txt" },
 	{ "zh-CHT", "../data/chinese_traditional.txt" },
 	{ "CZ",     "../data/czech.txt" },
@@ -18,6 +20,9 @@ std::map<BIP39::LanguageCode, std::string> lang_code_filepath = {
 	{ "PT",     "../data/portuguese.txt" },
 	{ "ES",     "../data/spanish.txt" }
 };
+*/
+
+extern std::map<const BIP39::LanguageCode, const BIP39::Words> lang_code_database;
 
 /*
 	Checks if language database is loaded
@@ -322,6 +327,7 @@ bool BIP39::Mnemonic::Set(const BIP39::Entropy& entropy, const BIP39::CheckSum& 
 
 bool BIP39::Mnemonic::LoadLanguage(const BIP39::LanguageCode& lang_code)
 {
+	/*
 	std::string filepath;
 	std::ifstream ifs;
 	
@@ -347,6 +353,12 @@ bool BIP39::Mnemonic::LoadLanguage(const BIP39::LanguageCode& lang_code)
 	
 	// Close input file
 	ifs.close();
+	*/
+	
+	// Clear words
+	this->_lang_code = lang_code;
+	this->_lang_words.clear();
+	this->_lang_words = lang_code_database[lang_code];
 	
 	return true;
 }
