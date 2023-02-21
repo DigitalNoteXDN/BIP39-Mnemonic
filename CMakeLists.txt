@@ -24,9 +24,8 @@ set_property(TARGET Mnemonic PROPERTY CXX_STANDARD 17)
 target_link_libraries(Mnemonic bip39)
 install(TARGETS Mnemonic DESTINATION bin)
 
-## Enable if you still want to use language .txt files
+## Enable if you still want to use language .txt files in installation folder
 ##INSTALL (
 ##    DIRECTORY ${CMAKE_SOURCE_DIR}/data/
 ##    DESTINATION data
 ##    FILES_MATCHING PATTERN "*.txt*")
-##]]

@@ -43,6 +43,7 @@ namespace BIP39
 			bool Set(const BIP39::Entropy& entropy, const BIP39::CheckSum& checksum);
 			
 			bool LoadLanguage(const BIP39::LanguageCode& lang_code = "EN");
+			bool LoadExternLanguage(const BIP39::LanguageCode& lang_code = "EN");
 			BIP39::Words GetLanguageWords() const;
 			bool Find(const BIP39::Word& word, int* index) const;
 			

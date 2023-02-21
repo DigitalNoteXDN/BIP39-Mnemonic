@@ -124,7 +124,7 @@ void _gen_lang_words(std::ofstream& ofs, const BIP39::LanguageCode& lang_code, c
 	BIP39::Mnemonic mnemonic;
 	BIP39::Words database;
 	
-	mnemonic.LoadLanguage(lang_code);
+	mnemonic.LoadExternLanguage(lang_code);
 	database = mnemonic.GetLanguageWords();
 	
 	ofs << "BIP39::Words " << variable_name << " = {";
@@ -197,7 +197,7 @@ int main()
 {
 	test_new_entropy();
 	test_new_checksum();
-	test_new_mnemonic("EN");
+	test_new_mnemonic("zh-CN");
 	
 	//gen_database_cpp();
 	
