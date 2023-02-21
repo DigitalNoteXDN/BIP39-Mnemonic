@@ -2325,8 +2325,8 @@ BIP39::Words database_ES = {
 };
 
 std::map<const BIP39::LanguageCode, const BIP39::Words> lang_code_database = {
-	{ "zhCN",  database_zhCN},
-	{ "zhCHT", database_zhCHT},
+	{ "zh-CN",  database_zhCN},
+	{ "zh-CHT", database_zhCHT},
 	{ "CZ",    database_CZ},
 	{ "EN",    database_EN},
 	{ "FR",    database_FR},
