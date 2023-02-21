@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "checksum.h"
-#include "entropy.h"
-#include "../bip39.h"
+#include <bip39/checksum.h>
+#include <bip39/entropy.h>
+#include <bip39.h>
 
 namespace BIP39
 {

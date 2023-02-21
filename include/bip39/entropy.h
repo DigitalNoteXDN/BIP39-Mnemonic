@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "../bip39.h"
+#include <bip39.h>
 
 namespace BIP39
 {

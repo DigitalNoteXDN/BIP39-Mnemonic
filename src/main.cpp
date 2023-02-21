@@ -197,7 +197,7 @@ int main()
 {
 	test_new_entropy();
 	test_new_checksum();
-	test_new_mnemonic("zh-CN");
+	test_new_mnemonic("EN");
 	
 	//gen_database_cpp();
 	
