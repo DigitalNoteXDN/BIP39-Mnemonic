@@ -7,11 +7,10 @@
 */
 
 #include <iostream>
-
-#include "bip39/entropy.h"
-#include "bip39/checksum.h"
-#include "bip39/mnemonic.h"
-#include "bip39/seed.h"
+#include <bip39/entropy.h>
+#include <bip39/checksum.h>
+#include <bip39/mnemonic.h>
+#include <bip39/seed.h>
 
 #include "util.h"
 

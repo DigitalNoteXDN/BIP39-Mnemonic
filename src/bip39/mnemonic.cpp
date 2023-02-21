@@ -4,10 +4,8 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
-
-#include "seed.h"
-
-#include "mnemonic.h"
+#include <bip39/seed.h>
+#include <bip39/mnemonic.h>
 
 std::map<BIP39::LanguageCode, std::string> lang_code_filepath = {
 	{ "zh-CN",  "../data/chinese_simplified.txt" },

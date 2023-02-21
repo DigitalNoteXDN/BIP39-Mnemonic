@@ -5,9 +5,9 @@ echo "--- Compile ---"
 
 cmake ..
 make
-cmake --install . --prefix "../"
+cmake --install . --prefix "../../../libs/mnemonic"
 
 echo "--- RUN ---"
 
-cd ../bin
+cd ../../../libs/mnemonic/bin
 ./Mnemonic

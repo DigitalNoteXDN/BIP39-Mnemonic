@@ -2,9 +2,9 @@
 #include <openssl/evp.h>
 #include <openssl/sha.h>
 #include <openssl/crypto.h>
+#include <bip39/seed.h>
 
 #include "../util.h"
-#include "seed.h"
 
 BIP39::Seed::Seed()
 {

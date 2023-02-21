@@ -1,7 +1,7 @@
-#include "checksum.h"
+#include <bip39/checksum.h>
+#include <bip39/entropy.h>
 
 #include "../util.h"
-#include "entropy.h"
 
 BIP39::CheckSum::CheckSum() : _sum(0)
 {

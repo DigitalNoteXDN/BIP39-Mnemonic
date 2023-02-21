@@ -1,7 +1,7 @@
 #include <string>
 
-#include "bip39/entropy.h"
-#include "bip39/seed.h"
+#include <bip39/entropy.h>
+#include <bip39/seed.h>
 
 template<typename T>
 std::string HexStr(const T itbegin, const T itend, bool fSpaces)

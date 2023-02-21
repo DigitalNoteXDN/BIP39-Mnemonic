@@ -1,10 +1,9 @@
 #include <string.h>
-
 #include <openssl/rand.h>
 #include <openssl/evp.h>
+#include <bip39/entropy.h>
+#include <bip39/checksum.h>
 
-#include "entropy.h"
-#include "checksum.h"
 #include "../util.h"
 
 BIP39::Entropy::Entropy()
