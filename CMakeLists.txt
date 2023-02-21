@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 project(Mnemonic VERSION 1.0.0)
 
-include_directories(../openssl-1.1.1s/include)
-link_directories(../openssl-1.1.1s/lib)
+include_directories(../../libs/openssl-1.1.1s/include)
+link_directories(../../libs/openssl-1.1.1s/lib)
 
 include_directories(include)
 
