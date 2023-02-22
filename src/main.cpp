@@ -13,7 +13,15 @@
 #include <bip39/mnemonic.h>
 #include <bip39/seed.h>
 
+#include <openssl/opensslv.h>
+
 #include "util.h"
+
+void test_openssl()
+{
+	std::cout << "--- OPENSSL ---" << std::endl;
+	std::cout << OPENSSL_VERSION_TEXT  << std::endl;
+}
 
 void test_new_entropy()
 {
@@ -195,6 +203,7 @@ void gen_database_cpp()
 
 int main()
 {
+	test_openssl();
 	test_new_entropy();
 	test_new_checksum();
 	test_new_mnemonic("EN");
