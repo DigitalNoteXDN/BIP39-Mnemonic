@@ -21,7 +21,12 @@ INSTALL (
 ## App
 add_executable(Mnemonic src/main.cpp )
 set_property(TARGET Mnemonic PROPERTY CXX_STANDARD 17)
-target_link_libraries(Mnemonic bip39)
+if(CMAKE_SYSTEM_NAME MATCHES "MINGW")
+	target_link_libraries(Mnemonic bip39 ssl crypto ws2_32 stdc++)
+else()
+	target_link_libraries(Mnemonic bip39)
+endif()
+
 install(TARGETS Mnemonic DESTINATION bin)
 
 ## Enable if you still want to use language .txt files in installation folder
