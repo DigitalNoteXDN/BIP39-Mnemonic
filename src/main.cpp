@@ -55,7 +55,7 @@ void test_new_checksum()
 	}
 	
 	// Generate checksum
-	if(!entropy.genCheckSum(&checksum))
+	if(!entropy.genCheckSum(checksum))
 	{
 		std::cout << "Failed to generate checksum." << std::endl;
 		return;
@@ -103,7 +103,7 @@ void test_new_mnemonic(const BIP39::LanguageCode& lang_code = "EN")
 	}
 	
 	// Generate checksum
-	if(!entropy.genCheckSum(&checksum))
+	if(!entropy.genCheckSum(checksum))
 	{
 		std::cout << "Failed to generate checksum." << std::endl;
 		return;

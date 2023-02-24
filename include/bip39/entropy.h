@@ -28,7 +28,7 @@ namespace BIP39
 			const unsigned char &operator[](unsigned int pos) const;
 			
 			bool genRandom();
-			bool genCheckSum(BIP39::CheckSum* checksum) const;
+			bool genCheckSum(BIP39::CheckSum& checksum) const;
 			BIP39::Data Raw() const;
 	};
 }

@@ -38,7 +38,7 @@ bool BIP39::CheckSum::isValid(const BIP39::Entropy& entropy) const
 	BIP39::CheckSum checksum;
 	
 	// Generate checksum
-	if(!entropy.genCheckSum(&checksum))
+	if(!entropy.genCheckSum(checksum))
 	{
 		return false;
 	}

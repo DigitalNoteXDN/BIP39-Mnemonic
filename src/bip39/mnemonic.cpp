@@ -39,12 +39,12 @@ bool BIP39::Mnemonic::_isLoaded() const
 	
 	Important: This function will not check the input and output content
 */
-void BIP39::Mnemonic::_Generate(const BIP39::Entropy& entropy, const BIP39::CheckSum& checksum, BIP39::WordIndexs* word_indexs) const
+void BIP39::Mnemonic::_Generate(const BIP39::Entropy& entropy, const BIP39::CheckSum& checksum, BIP39::WordIndexs& word_indexs) const
 {
 	BIP39::Data data = entropy.Raw();
 	
 	// Collect word indexs
-	*word_indexs = {
+	word_indexs = {
 		( static_cast<unsigned int>(data[ 0])         <<  3) + ((static_cast<unsigned int>(data[ 1]) & 0xE0) >> 5),
 		((static_cast<unsigned int>(data[ 1]) & 0x1F) <<  6) + ((static_cast<unsigned int>(data[ 2]) & 0xFC) >> 2),
 		((static_cast<unsigned int>(data[ 2]) & 0x03) <<  9) + ( static_cast<unsigned int>(data[ 3])         << 1) + ((static_cast<uint16_t>(data[4]) & 0x80) >> 7),
@@ -80,14 +80,14 @@ void BIP39::Mnemonic::_Generate(const BIP39::Entropy& entropy, const BIP39::Chec
 	
 	Important: This function will not check the input, output content or database
 */
-void BIP39::Mnemonic::_Generate(const BIP39::WordIndexs& word_indexs, BIP39::Words* mnemonic) const
+void BIP39::Mnemonic::_Generate(const BIP39::WordIndexs& word_indexs, BIP39::Words& mnemonic) const
 {
 	// Clear mnemonic
-	mnemonic->clear();
+	mnemonic.clear();
 	
 	for(BIP39::WordIndex index : word_indexs)
 	{
-		mnemonic->push_back(this->_lang_words[index]);
+		mnemonic.push_back(this->_lang_words[index]);
 	}
 }
 
@@ -99,7 +99,7 @@ void BIP39::Mnemonic::_Generate(const BIP39::WordIndexs& word_indexs, BIP39::Wor
 	
 	Important: This function will not check the input, output content or database
 */
-bool BIP39::Mnemonic::_Generate(const BIP39::Words& mnemonic, BIP39::WordIndexs* word_indexs) const
+bool BIP39::Mnemonic::_Generate(const BIP39::Words& mnemonic, BIP39::WordIndexs& word_indexs) const
 {
 	BIP39::Words::const_iterator found, begin, end;
 		
@@ -107,7 +107,7 @@ bool BIP39::Mnemonic::_Generate(const BIP39::Words& mnemonic, BIP39::WordIndexs*
 	end = this->_lang_words.end();
 	
 	// Clear word indexs
-	word_indexs->clear();
+	word_indexs.clear();
 	
 	for(const BIP39::Word word : mnemonic)
 	{
@@ -116,12 +116,12 @@ bool BIP39::Mnemonic::_Generate(const BIP39::Words& mnemonic, BIP39::WordIndexs*
 		// Find word index in database
 		if(found == end)
 		{
-			word_indexs->clear();
+			word_indexs.clear();
 			
 			return false;
 		}
 		
-		word_indexs->push_back(std::distance(begin, found));
+		word_indexs.push_back(std::distance(begin, found));
 	}
 	
 	return true;
@@ -136,7 +136,7 @@ bool BIP39::Mnemonic::_Generate(const BIP39::Words& mnemonic, BIP39::WordIndexs*
 	
 	Important: This function will not check the input and output content
 */
-void BIP39::Mnemonic::_Generate(const BIP39::WordIndexs& word_indexs, BIP39::Entropy* entropy, BIP39::CheckSum* checksum) const
+void BIP39::Mnemonic::_Generate(const BIP39::WordIndexs& word_indexs, BIP39::Entropy& entropy, BIP39::CheckSum& checksum) const
 {
 	BIP39::Data data = {
 		static_cast<unsigned char>(( word_indexs[ 0] & 0x7F8) >> 3                                     ),
@@ -173,8 +173,8 @@ void BIP39::Mnemonic::_Generate(const BIP39::WordIndexs& word_indexs, BIP39::Ent
 		static_cast<unsigned char>(((word_indexs[22] & 0x01F) << 3) + ((word_indexs[23] & 0x700) >>  8))
 	};
 	
-	entropy->Set(data);
-	checksum->Set(static_cast<uint8_t>(word_indexs[23] & 0xFF));
+	entropy.Set(data);
+	checksum.Set(static_cast<uint8_t>(word_indexs[23] & 0xFF));
 }
 
 BIP39::Mnemonic::Mnemonic() : _lang_code("")
@@ -188,17 +188,17 @@ BIP39::Mnemonic::~Mnemonic()
 	this->_mnemonic.clear();
 }
 
-BIP39::Entropy BIP39::Mnemonic::GetEntropy() const
+const BIP39::Entropy& BIP39::Mnemonic::GetEntropy() const
 {
 	return this->_entropy;
 }
 
-BIP39::CheckSum BIP39::Mnemonic::GetCheckSum() const
+const BIP39::CheckSum& BIP39::Mnemonic::GetCheckSum() const
 {
 	return this->_checksum;
 }
 
-BIP39::Words BIP39::Mnemonic::GetMnemonic() const
+const BIP39::Words& BIP39::Mnemonic::GetMnemonic() const
 {
 	return this->_mnemonic;
 }
@@ -277,13 +277,13 @@ bool BIP39::Mnemonic::Set(const BIP39::Words& mnemonic)
 	}
 	
 	// Generate word indexs
-	if(!this->_Generate(mnemonic, &word_indexs))
+	if(!this->_Generate(mnemonic, word_indexs))
 	{
 		return false;
 	}
 	
 	// Generate entropy and checksum
-	this->_Generate(word_indexs, &entropy, &checksum);
+	this->_Generate(word_indexs, entropy, checksum);
 	
 	if(!checksum.isValid(entropy))
 	{
@@ -311,10 +311,10 @@ bool BIP39::Mnemonic::Set(const BIP39::Entropy& entropy, const BIP39::CheckSum& 
 	}
 	
 	// Generate word indexs
-	this->_Generate(entropy, checksum, &word_indexs);
+	this->_Generate(entropy, checksum, word_indexs);
 	
 	// Generate mnemonic
-	this->_Generate(word_indexs, &this->_mnemonic);
+	this->_Generate(word_indexs, this->_mnemonic);
 	
 	// Copy entropy and checksum
 	this->_entropy = entropy;
@@ -367,7 +367,7 @@ bool BIP39::Mnemonic::LoadExternLanguage(const BIP39::LanguageCode& lang_code)
 /*
 	Return the language database
 */
-BIP39::Words BIP39::Mnemonic::GetLanguageWords() const
+const BIP39::Words& BIP39::Mnemonic::GetLanguageWords() const
 {
 	return this->_lang_words;
 }

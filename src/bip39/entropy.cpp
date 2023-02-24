@@ -68,13 +68,13 @@ bool BIP39::Entropy::genRandom()
 	return true;
 }
 
-bool BIP39::Entropy::genCheckSum(BIP39::CheckSum* checksum) const
+bool BIP39::Entropy::genCheckSum(BIP39::CheckSum& checksum) const
 {
 	unsigned char hash[EVP_MAX_MD_SIZE];
 	unsigned int size = 0;
 	
 	// Clear checksum
-	checksum->Set(0x0);
+	checksum.Set(0x0);
 	
 	// Create context and Initialize sha256 in context
 	EVP_MD_CTX* ctx = EVP_MD_CTX_new();
@@ -96,7 +96,7 @@ bool BIP39::Entropy::genCheckSum(BIP39::CheckSum* checksum) const
 	}
 	
 	// Set checksum
-	checksum->Set(static_cast<uint8_t>(hash[0]));
+	checksum.Set(static_cast<uint8_t>(hash[0]));
 	
 	// Free EVP
 	EVP_MD_CTX_free(ctx);
