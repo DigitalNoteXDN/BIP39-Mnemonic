@@ -325,6 +325,11 @@ bool BIP39::Mnemonic::Set(const BIP39::Entropy& entropy, const BIP39::CheckSum& 
 
 bool BIP39::Mnemonic::LoadLanguage(const BIP39::LanguageCode& lang_code)
 {
+	if(lang_code_database.find(lang_code) == lang_code_database.end())
+	{
+		return false;
+	}
+
 	// Clear words
 	this->_lang_code = lang_code;
 	this->_lang_words.clear();
